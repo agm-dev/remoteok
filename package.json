@@ -1,0 +1,26 @@
+{
+  "name": "remoteok",
+  "version": "1.0.0",
+  "description": "JS lib to manage remoteok.io/api data",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agm-dev/remoteok.git"
+  },
+  "keywords": [
+    "remoteok",
+    "jobs",
+    "remote",
+    "library",
+    "wrapper"
+  ],
+  "author": "Adrián Gonzalo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/agm-dev/remoteok/issues"
+  },
+  "homepage": "https://github.com/agm-dev/remoteok#readme"
+}
