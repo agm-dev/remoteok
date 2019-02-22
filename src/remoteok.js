@@ -36,6 +36,21 @@ class RemoteOk {
     }, []);
   }
 
+  getJobsByTags(tags = [], condition = 'OR', data = this.data) {
+    condition = condition === 'AND' ? condition : 'OR';
+
+    const matchesCondition = condition => item => {
+      if (condition === 'AND') {
+        return tags.every(tag => item.tags.includes(tag));
+      }
+      return tags.some(tag => item.tags.includes(tag));
+    }
+
+    return data
+      .filter(item => Array.isArray(item.tags))
+      .filter(matchesCondition(condition));
+  }
+
 }
 
 module.exports = RemoteOk;

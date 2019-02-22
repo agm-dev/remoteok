@@ -37,4 +37,44 @@ describe('RemoteOk', () => {
     expect(containsAll).to.be.true;
   })
 
+  it('getJobsByTags must return items whose tags matches', () => {
+    const fakeData = [
+      { id: 1, tags: [ 'nodejs', 'vue', 'mongodb' ]},
+      { id: 2, tags: [ 'vue', 'mongodb' ]},
+      { id: 3, tags: [ 'nodejs', 'mongodb' ]},
+      { id: 4, tags: [ 'nodejs', 'vue' ]},
+      { id: 5, tags: [ 'javascript', 'angular' ]},
+      { id: 6, tags: [ 'c++', 'sql' ]},
+      { id: 7, tags: [ 'mysql', 'python', 'ruby' ]},
+      { id: 8, tags: [ 'python', 'linux ']}
+    ];
+    const orExpectedResults = [
+      { tags: [ 'nodejs', 'vue' ], ids: [ 1, 2, 3, 4 ]},
+      { tags: [ 'javascript', 'vue' ], ids: [ 1, 2, 4, 5 ]},
+      { tags: [ 'python', 'c++' ], ids: [ 6, 7, 8 ]},
+    ];
+    const andExpectedResults = [
+      { tags: [ 'nodejs', 'vue' ], ids: [ 1, 4 ]},
+      { tags: [ 'javascript', 'vue' ], ids: [] },
+      { tags: [ 'python', 'c++' ], ids: []},
+      { tags: [ 'mongodb', 'vue' ], ids: [ 1, 2 ]},
+    ];
+
+    const instance = new RemoteOk();
+    instance.data = fakeData;
+
+    const validate = type => expected => {
+      type === 'AND' ? type : 'OR';
+      const results = instance.getJobsByTags(expected.tags, type);
+      expect(Array.isArray(results)).to.be.true;
+      expect(results.length).to.be.equal(expected.ids.length);
+
+      const everyExpectedItem = results.every(result => expected.ids.includes(result.id));
+      expect(everyExpectedItem).to.be.true;
+    }
+
+    orExpectedResults.map(validate('OR'));
+    andExpectedResults.map(validate('AND'));
+  });
+
 });
