@@ -24,6 +24,18 @@ class RemoteOk {
       });
   }
 
+  getTags(data = this.data) {
+    return data.reduce((final, current) => {
+      if (typeof current.tags !== 'undefined' && Array.isArray(current.tags)) {
+        const toAdd = current.tags
+          .filter(item => !final.includes(item))
+          .map(item => item.toLowerCase());
+        return [...final, ...toAdd];
+      }
+      return final;
+    }, []);
+  }
+
 }
 
 module.exports = RemoteOk;
